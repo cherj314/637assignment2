@@ -48,60 +48,132 @@ public class RangeTest {
     // don't know if the datatypes handling was a requirement 
     
     
-    
-    // Lower bound method tests
+    /* 
+     * Lower bound method tests
+     */
     @Test
     public void testGetLowerBound() {
     	Range range = new Range(2.0, 5.0);
-    	assertEquals("Unexpected behaviour in method getLowerBound",2.0, range.getLowerBound(),0.0000001);
+    	assertEquals("Unexpected behaviour in method getLowerBound",
+    			2.0, range.getLowerBound(),0.0000001);
+    }
+    
+    @Test
+    public void testGetLowerBoundWithOneNegitiveParameter() {
+    	Range range = new Range(-603.0, 5.0);
+    	assertEquals("Unexpected behaviour in method getLowerBound with a single negitive paramter",
+    			-603.0, range.getLowerBound(),0.0000001);
+    }
+    
+    @Test
+    public void testGetLowerBoundWithBothNegitiveParameter() {
+    	Range range = new Range(-60.5,-2.7);
+    	assertEquals("Unexpected behaviour in method getLowerBound with two negitive parameters",
+    			-60.5, range.getLowerBound(),0.0000001);
     }
     
     @Test
     public void testGetLowerBoundMinValue() {
     	Range range = new Range(Double.MIN_VALUE, 5.0);
-    	assertEquals("Unexpected behaviour in method getLowerBound",Double.MIN_VALUE, range.getLowerBound(),0.0000001);
+    	assertEquals("Unexpected behaviour in method getLowerBound",
+    			Double.MIN_VALUE, range.getLowerBound(),0.0000001);
     }
     
     @Test
     public void testGetLowerBoundNegInfValue() {
     	Range range = new Range(Double.NEGATIVE_INFINITY, 5.0);
-    	assertEquals("Unexpected behaviour in method getLowerBound",Double.NEGATIVE_INFINITY, range.getLowerBound(),0.0000001);
+    	assertEquals("Unexpected behaviour in method getLowerBound",
+    			Double.NEGATIVE_INFINITY, range.getLowerBound(),0.0000001);
     }
     
     
-    // upper bounds method tests
+    /* upper bounds method tests 
+     * Seems to be returning lower bound 
+     */
     @Test
     public void testGetUpperBound() {
     	Range range = new Range(2.0, 5.0);
-    	assertEquals("Unexpected behaviour in method getUpperBound",5.0, range.getUpperBound(),0.0000001);
+    	assertEquals("Unexpected behaviour in method getUpperBound",
+    			5.0, range.getUpperBound(),0.0000001);
+    }
+    
+    @Test
+    public void testGetUpperBoundBigger() {
+    	Range range = new Range(2.1, 123456789.5);
+    	assertEquals("Unexpected behaviour in method getUpperBound",123456789.5, range.getUpperBound(),0.0000001);
     }
     
     @Test
     public void testGetUpperBoundMaxValue() {
-    	Range range = new Range(Double.MAX_VALUE, 5.0);
-    	assertEquals("Unexpected behaviour in method getUpperBound with max double value",Double.MAX_VALUE, range.getUpperBound(),0.0000001);
+    	Range range = new Range(5.0,Double.MAX_VALUE);
+    	assertEquals("Unexpected behaviour in method getUpperBound with max double value",
+    			Double.MAX_VALUE, range.getUpperBound(),0.0000001);
     }
     
     @Test
     public void testGetUpperBoundPosInfValue() {
-    	Range range = new Range(Double.POSITIVE_INFINITY, 5.0);
-    	assertEquals("Unexpected behaviour in method getUpperBound with positive infinity",Double.POSITIVE_INFINITY, range.getUpperBound(),0.0000001);
+    	Range range = new Range(5.0, Double.POSITIVE_INFINITY);
+    	assertEquals("Unexpected behaviour in method getUpperBound with positive infinity",
+    			Double.POSITIVE_INFINITY, range.getUpperBound(),0.0000001);
     }
 
     
-    // getCentralValue method tests
+    /* getCentralValue method tests 
+     * 
+     */
     @Test
     public void centralValueShouldBeZero() {
+    	Range range = new Range(-1,1);
         assertEquals("The central value of -1 and 1 should be 0",
-        0, exampleRange.getCentralValue(), .000000001d);
+        0, range.getCentralValue(), .000000001d);
+    }
+    
+    @Test
+    public void testNegMedianCalc() {
+    	Range range = new Range(-9,0);
+    	assertEquals("The central value of -9 and 0 should be -4.5",
+    	-4.5, range.getCentralValue(), .000000001d);		    
+    }
+    
+    @Test
+    public void testPosMedianCalc() {
+    	Range range = new Range(45.0,6900.0);
+    	assertEquals("The central value of -9 and 0 should be 3427.5",
+    	3472.5, range.getCentralValue(), .000000001d);		    
     }
 
     
-    // getLength method tests
+    /* getLength method tests
+     * 
+     */
     @Test
     public void testGetLength() {
         Range range = new Range(0.0, 10.0);
-        assertEquals(10.0, range.getLength(), 0.001);
+        assertEquals("Unexpected behaviour in get length method",10.0, range.getLength(), 0.001);
+    }
+    
+    @Test
+    public void testGetLengthNegitiveValues() {
+        Range range = new Range(-30.0, -10.0);
+        assertEquals("get length fails with negitive values",20.0, range.getLength(), 0.001);
+    }
+    
+    @Test
+    public void testGetLengthWithNegLowerBound() {
+        Range range = new Range(-30.0, 30.0);
+        assertEquals("get length fails with negitive lower bound",60.0, range.getLength(), 0.001);
+    }
+    
+    @Test
+    public void testGetLengthSmallLength() {
+        Range range = new Range(0.55555, 0.55556);
+        assertEquals("get length fails with length = 0.00001",0.00001, range.getLength(), 0.001);
+    }
+    
+    @Test
+    public void testGetLengthMaxLength() {
+        Range range = new Range(Double.MIN_VALUE, Double.MAX_VALUE);
+        assertEquals("get length fails on overflow",Double.MAX_VALUE - Double.MIN_VALUE, range.getLength(), 0.001);
     }
     
     // choose one more method
