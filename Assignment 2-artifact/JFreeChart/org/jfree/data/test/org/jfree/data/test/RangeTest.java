@@ -29,6 +29,8 @@ public class RangeTest {
      * shift
      * shift overloaded
      * toString
+     * 
+     * Testing most of the others relies on the method get upper which is broken....
      */
     @Test
     public void testContructorCreatesObj() {
@@ -144,7 +146,8 @@ public class RangeTest {
 
     
     /* getLength method tests
-     * 
+     * Given that equals is bugged likely due to getupper,
+     * I thought length would be as well...
      */
     @Test
     public void testGetLength() {
@@ -165,20 +168,49 @@ public class RangeTest {
     }
     
     @Test
-    public void testGetLengthSmallLength() {
+    public void testGetLengthSmall() {
         Range range = new Range(0.55555, 0.55556);
         assertEquals("get length fails with length = 0.00001",0.00001, range.getLength(), 0.001);
     }
     
     @Test
-    public void testGetLengthMaxLength() {
+    public void testGetLengthMax() {
         Range range = new Range(Double.MIN_VALUE, Double.MAX_VALUE);
         assertEquals("get length fails on overflow",Double.MAX_VALUE - Double.MIN_VALUE, range.getLength(), 0.001);
     }
     
-    // choose one more method
+    /*
+     * equals method tests
+     * Fails, seems to only check if lower is equal. 
+     * probably relies on getUpperBound which incorrectly returns lower. 
+     */
+    @Test
+    public void testEquals() {
+        Range range1 = new Range(0.0, 5.0);
+        Range range2 = new Range(0.0, 5.0);
+        assertTrue(range1.equals(range2));
+    }
     
+    @Test
+    public void testEqualsZeroFiveAndZeroSix() {
+        Range range1 = new Range(0.0, 5.0);
+        Range range2 = new Range(0.0, 6.0);
+        assertFalse(range1.equals(range2));  
+    }
     
+    @Test
+    public void testEqualsOneFiveAndZeroSix() {
+        Range range1 = new Range(1.0, 5.0);
+        Range range2 = new Range(0.0, 6.0);
+        assertFalse(range1.equals(range2));  
+    }
+    
+    @Test
+    public void testEqualsNegOneFiveAndZeroSixHundred() {
+        Range range1 = new Range(-1.0, 5.0);
+        Range range2 = new Range(-1.0, 600.0);
+        assertFalse(range1.equals(range2));  
+    }
     
     @After
     public void tearDown() throws Exception {

@@ -22,9 +22,9 @@ public class DataUtilitiesTest extends DataUtilities {
 	}
 	
 	/*
-calculateColumnTotal
+	calculateColumnTotal
 
-public static double calculateColumnTotal(Values2D data, int column)
+	public static double calculateColumnTotal(Values2D data, int column)
     Returns the sum of the values in one column of the supplied data table. With invalid input, a total of zero will be returned.
 
     Parameters:
