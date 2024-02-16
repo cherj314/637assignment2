@@ -1,156 +1,290 @@
 package org.jfree.data.test;
 
-
 import static org.junit.Assert.*;
 
 import org.jfree.data.DataUtilities;
-import org.junit.After;
-import org.junit.AfterClass;
+import org.jfree.data.KeyedValues;
+import org.jfree.data.Values2D;
+import org.jmock.Mockery;
+import org.jmock.Expectations;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class DataUtilitiesTest extends DataUtilities {
+public class DataUtilitiesTest {
+    
+    private Mockery mockingContext;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	
-	}
+    @Before
+    public void setUp() {
+        mockingContext = new Mockery();
+    }
 
-	@Before
-	public void setUp() throws Exception {
-	}
-	
-	/*
-	calculateColumnTotal
+    // Test for calculateColumnTotal
+    @Test
+    public void calculateColumnTotal_WithPositiveValues() {
+        final Values2D values = mockingContext.mock(Values2D.class);
+        
+        mockingContext.checking(new Expectations() {{
+            oneOf(values).getRowCount();
+            will(returnValue(2));
+            oneOf(values).getValue(0, 0);
+            will(returnValue(5.0));
+            oneOf(values).getValue(1, 0);
+            will(returnValue(10.0));
+        }});
+        
+        double result = DataUtilities.calculateColumnTotal(values, 0);
+        assertEquals(15.0, result, 0.000000001d);
+    }
+    
+    @Test
+    public void calculateColumnTotal_WithNegativeValues() {
+        final Values2D values = mockingContext.mock(Values2D.class);
+        
+        mockingContext.checking(new Expectations() {{
+            oneOf(values).getRowCount();
+            will(returnValue(2));
+            oneOf(values).getValue(0, 0);
+            will(returnValue(-5.0));
+            oneOf(values).getValue(1, 0);
+            will(returnValue(-10.0));
+        }});
+        
+        double result = DataUtilities.calculateColumnTotal(values, 0);
+        assertEquals(-15.0, result, 0.000000001d);
+    }
+    
+    @Test
+    public void calculateColumnTotal_WithNullValue() {
+        final Values2D values = mockingContext.mock(Values2D.class);
+        
+        mockingContext.checking(new Expectations() {{
+            oneOf(values).getRowCount();
+            will(returnValue(2));
+            oneOf(values).getValue(0, 0);
+            will(returnValue(null));
+            oneOf(values).getValue(1, 0);
+            will(returnValue(10.0));
+        }});
+        
+        double result = DataUtilities.calculateColumnTotal(values, 0);
+        assertEquals(10.0, result, 0.000000001d);
+    }
+    
+    @Test
+    public void calculateColumnTotal_WithZeroValues() {
+        final Values2D values = mockingContext.mock(Values2D.class);
+        
+        mockingContext.checking(new Expectations() {{
+            oneOf(values).getRowCount();
+            will(returnValue(3));
+            oneOf(values).getValue(0, 0);
+            will(returnValue(0.0));
+            oneOf(values).getValue(1, 0);
+            will(returnValue(0.0));
+            oneOf(values).getValue(2, 0);
+            will(returnValue(0.0));
+        }});
+        
+        double result = DataUtilities.calculateColumnTotal(values, 0);
+        assertEquals(0.0, result, 0.000000001d);
+    }
+    
+    @Test
+    public void calculateColumnTotal_WithLargeDataset() {
+        final Values2D values = mockingContext.mock(Values2D.class);
+        final int rowCount = 10000; 
+        
+        mockingContext.checking(new Expectations() {{
+            oneOf(values).getRowCount();
+            will(returnValue(rowCount));
+            for (int i = 0; i < rowCount; i++) {
+                final int rowIndex = i;
+                oneOf(values).getValue(rowIndex, 0);
+                will(returnValue(1.0)); 
+            }
+        }});
+        
+        double result = DataUtilities.calculateColumnTotal(values, 0);
+        assertEquals(rowCount, result, 0.000000001d); 
+    }
 
-	public static double calculateColumnTotal(Values2D data, int column)
-    Returns the sum of the values in one column of the supplied data table. With invalid input, a total of zero will be returned.
+    // Test for calculateRowTotal
+    @Test
+    public void calculateRowTotal_WithMixedValues() {
+        final Values2D values = mockingContext.mock(Values2D.class);
+        
+        mockingContext.checking(new Expectations() {{
+            oneOf(values).getColumnCount();
+            will(returnValue(3));
+            oneOf(values).getValue(0, 0);
+            will(returnValue(5.0));
+            oneOf(values).getValue(0, 1);
+            will(returnValue(-2.5));
+            oneOf(values).getValue(0, 2);
+            will(returnValue(0.0));
+        }});
+        
+        double result = DataUtilities.calculateRowTotal(values, 0);
+        assertEquals(2.5, result, 0.000000001d);
+    }
 
-    Parameters:
-        data - the table of values (null not permitted).
-        column - the column index (zero-based). 
-    Returns:
-        The sum of the values in the specified column. 
-    Throws:
-        InvalidParameterException - if invalid data object is passed in.
-	 */
-	
-	@Test
-	public void calcColTotalTest1() {
-		fail("git good")
-	}
-	
-	/*	
-	calculateRowTotal
+    @Test
+    public void calculateRowTotal_WithNullValues() {
+        final Values2D values = mockingContext.mock(Values2D.class);
+        
+        mockingContext.checking(new Expectations() {{
+            oneOf(values).getColumnCount();
+            will(returnValue(3));
+            oneOf(values).getValue(0, 0);
+            will(returnValue(null));
+            oneOf(values).getValue(0, 1);
+            will(returnValue(null));
+            oneOf(values).getValue(0, 2);
+            will(returnValue(10.0));
+        }});
+        
+        double result = DataUtilities.calculateRowTotal(values, 0);
+        assertEquals(10.0, result, 0.000000001d);
+    }
+    
+    @Test
+    public void calculateRowTotal_WithRowIndexOutOfRange() {
+        final Values2D values = mockingContext.mock(Values2D.class);
+        
+        mockingContext.checking(new Expectations() {{
+            oneOf(values).getColumnCount();
+            will(returnValue(1));
+        }});
+        
+        double result = DataUtilities.calculateRowTotal(values, 5); // Assuming index 5 is out of range
+        assertEquals(0.0, result, 0.000000001d);
+    }
 
-	public static double calculateRowTotal(Values2D data, int row)
+    // Test for createNumberArray
+    @Test
+    public void createNumberArray_WithValidInput() {
+        double[] data = {1.0, 2.0, 3.0};
+        Number[] result = DataUtilities.createNumberArray(data);
+        
+        assertNotNull(result);
+        assertEquals(3, result.length);
+        assertEquals(Number.class, result[0].getClass());
+        assertEquals(1.0, result[0].doubleValue(), 0.0);
+        assertEquals(2.0, result[1].doubleValue(), 0.0);
+        assertEquals(3.0, result[2].doubleValue(), 0.0);
+    }
 
-    Returns the sum of the values in one row of the supplied data table. With invalid input, a total of zero will be returned.
+    @Test(expected = IllegalArgumentException.class)
+    public void createNumberArray_WithNullInput() {
+        DataUtilities.createNumberArray(null);
+    }
+    
+    // Test for createNumberArray2D
+    @Test
+    public void createNumberArray2D_WithValidInput() {
+        double[][] data = {{1.0, 2.0}, {3.0, 4.0}};
+        Number[][] result = DataUtilities.createNumberArray2D(data);
+        
+        assertNotNull(result);
+        assertEquals(2, result.length);
+        assertEquals(Number.class, result[0][0].getClass());
+        assertEquals(1.0, result[0][0].doubleValue(), 0.0);
+        assertEquals(2.0, result[0][1].doubleValue(), 0.0);
+        assertEquals(3.0, result[1][0].doubleValue(), 0.0);
+        assertEquals(4.0, result[1][1].doubleValue(), 0.0);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void createNumberArray2D_WithNullInput() {
+        DataUtilities.createNumberArray2D(null);
+    }
+    
+    @Test
+    public void createNumberArray2D_WithEmptyArray() {
+        double[][] data = new double[0][0];
+        Number[][] result = DataUtilities.createNumberArray2D(data);
+        assertNotNull(result);
+        assertEquals(0, result.length);
+    }
 
-    Parameters:
-        data - the table of values (null not permitted).
-        row - the row index (zero-based). 
-    Returns:
-        The total of the values in the specified row. 
-    Throws:
-        InvalidParameterException - if invalid data object is passed in.
- 	*/
-	@Test
-	public void calcRowTotalTest1() {
-		fail("git good")
-	}
-
-	
-	/*
-	createNumberArray
-
-	public static java.lang.Number[] createNumberArray(double[] data)
-
-    Constructs an array of Number objects from an array of double primitives.
-
-    Parameters:
-        data - An array of double primitives (null not permitted). 
-    Returns:
-        An array of Number objects. 
-    Throws:
-        InvalidParameterException - if invalid data object is passed in.
-	*/
-	@Test
-	public void createNumArrTest1() {
-		fail("git good")
-	}
-
-	
-	/*
-	createNumberArray2D
-
-	public static java.lang.Number[][] createNumberArray2D(double[][] data)
-
-    Constructs an array of arrays of Number objects from a corresponding structure containing double primitives.
-
-    Parameters:
-        data - An array of double primitives (null not permitted). 
-    Returns:
-        An array of Number objects. 
-    Throws:
-        InvalidParameterException - if invalid data object is passed in.
-	*/
-	
-	@Test
-	public void createNumArr2DTest1() {
-		fail("git good")
-	}
-
-	
-	/*
-	getCumulativePercentages
-
-	public static KeyedValues getCumulativePercentages(KeyedValues data)
-
-    Returns a KeyedValues instance that contains the cumulative percentage values for the data in another KeyedValues instance. The cumulative percentage is each value's cumulative sum's portion of the sum of all the values.
-    eg:
-    Input:
-
-    Key  Value
-    0        5
-    1        9
-    2        2
-
-    Returns:
-
-    Key  Value
-    0     0.3125 (5 / 16)
-    1     0.875 ((5 + 9) / 16)
-    2     1.0 ((5 + 9 + 2) / 16)
-
-    The percentages are values between 0.0 and 1.0 (where 1.0 = 100%).
-
-    Parameters:
-        data - the data (null not permitted). 
-    Returns:
-        The cumulative percentages. 
-    Throws:
-        InvalidParameterException - if invalid data object is passed in.
-
-
-	 */
-	
-	@Test
-	public void testCumPercent() {
-		fail("Not yet implemented");
-	}
-	
-	
-	
-	@After
-	public void tearDown() throws Exception {
-	}
-	
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	
-	}
-	
-
+    // Test for getCumulativePercentages
+    @Test
+    public void getCumulativePercentages_WithValidInput() {
+        final KeyedValues values = mockingContext.mock(KeyedValues.class);
+        
+        mockingContext.checking(new Expectations() {{
+            allowing(values).getItemCount();
+            will(returnValue(3));
+            allowing(values).getKey(0);
+            will(returnValue("A"));
+            allowing(values).getValue(0);
+            will(returnValue(1.0));
+            allowing(values).getKey(1);
+            will(returnValue("B"));
+            allowing(values).getValue(1);
+            will(returnValue(2.0));
+            allowing(values).getKey(2);
+            will(returnValue("C"));
+            allowing(values).getValue(2);
+            will(returnValue(3.0));
+        }});
+        
+        KeyedValues result = DataUtilities.getCumulativePercentages(values);
+        assertNotNull(result);
+        assertEquals(3, result.getItemCount());
+        assertEquals(0.16666666666666666, result.getValue("A").doubleValue(), 0.000000001d);
+        assertEquals(0.5, result.getValue("B").doubleValue(), 0.000000001d);
+        assertEquals(1.0, result.getValue("C").doubleValue(), 0.000000001d);
+    }
+    
+    @Test
+    public void getCumulativePercentages_WithZeroTotal() {
+        final KeyedValues values = mockingContext.mock(KeyedValues.class);
+        
+        mockingContext.checking(new Expectations() {{
+            allowing(values).getItemCount();
+            will(returnValue(2));
+            allowing(values).getKey(0);
+            will(returnValue("A"));
+            allowing(values).getValue(0);
+            will(returnValue(0.0));
+            allowing(values).getKey(1);
+            will(returnValue("B"));
+            allowing(values).getValue(1);
+            will(returnValue(0.0));
+        }});
+        
+        KeyedValues result = DataUtilities.getCumulativePercentages(values);
+        assertNotNull(result);
+        assertEquals(0.0, result.getValue("A").doubleValue(), 0.000000001d);
+        assertEquals(0.0, result.getValue("B").doubleValue(), 0.000000001d);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void getCumulativePercentages_WithNullInput() {
+        DataUtilities.getCumulativePercentages(null);
+    }
+    
+    @Test
+    public void getCumulativePercentages_WithNegativeValues() {
+        final KeyedValues values = mockingContext.mock(KeyedValues.class);
+        
+        mockingContext.checking(new Expectations() {{
+            allowing(values).getItemCount();
+            will(returnValue(2));
+            allowing(values).getKey(0);
+            will(returnValue("A"));
+            allowing(values).getValue(0);
+            will(returnValue(-10.0));
+            allowing(values).getKey(1);
+            will(returnValue("B"));
+            allowing(values).getValue(1);
+            will(returnValue(20.0));
+        }});
+        
+        KeyedValues result = DataUtilities.getCumulativePercentages(values);
+        assertNotNull(result);
+        // Expecting specific behavior for negative values, e.g., treating them as part of the total or excluding them
+    }
 }
