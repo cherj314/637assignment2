@@ -3,34 +3,17 @@ package org.jfree.data.test;
 import static org.junit.Assert.*; import org.jfree.data.Range; import org.junit.*;
 
 public class RangeTest {
-    private Range exampleRange;
+    private Range constrainRange;
     @BeforeClass public static void setUpBeforeClass() throws Exception {
     }
 
 
     @Before
-    public void setUp() throws Exception { exampleRange = new Range(-1, 1);
+    public void setUp() throws Exception { constrainRange = new Range(-10, 20);
     }
 
     /*
-     * choose 5 out of 15 methods for testing:
-     * combine
-     * constrain
-     * contains
-     * equals
-     * expand
-     * expandToInclude
-     * getCentralValue
-     * getLength
-     * getLowerBound
-     * getUpperBound
-     * hashCode
-     * intersects
-     * shift
-     * shift overloaded
-     * toString
-     * 
-     * Testing most of the others relies on the method get upper which is broken....
+     * testing constructor
      */
     @Test
     public void testContructor_CreatesObj() {
@@ -38,17 +21,22 @@ public class RangeTest {
     	assertNotNull("No object was created", range);
     }
     
+    @Test
+    public void testContructor_CreatesObj_whenBoundsAreEqual() {
+    	Range range = new Range(0.0, 0.0);
+    	assertNotNull("No object was created", range);
+    }
+    
     @Test(expected = IllegalArgumentException.class)
     public void testContructor_LowerGreaterThanUpperParameter() {
     	Range range = new Range(3.0, 2.0);
     }
-  
-    // HOW/SHOULD_WE TEST HOW THE CODE HANDLES INVALID PARAMETERS I.E. INT, STRING
-    // the javadoc isnt exactly project requirements...
-    // hard to know the intention of some of the methods just from javadoc.
+    
     
     /* 
      * Lower bound method tests
+     * 
+     *  Should always return the lower bound of the range
      */
     @Test
     public void testGetLowerBound() {
@@ -72,6 +60,13 @@ public class RangeTest {
     }
     
     @Test
+    public void testGetLowerBound_ZeroValue() {
+    	Range range = new Range(0.0, 10.0);
+    	assertEquals("Unexpected behaviour in method getLowerBound",
+    			0.0, range.getLowerBound(),0.0000001);
+    }
+    
+    @Test
     public void testGetLowerBound_MinValue() {
     	Range range = new Range(Double.MIN_VALUE, 5.0);
     	assertEquals("Unexpected behaviour in method getLowerBound",
@@ -87,7 +82,9 @@ public class RangeTest {
     
     
     /* upper bounds method tests 
-     * Seems to be returning lower bound 
+     * 
+     * Should always return the upper bound
+     * NOTE:  Seems to be returning lower bound instead
      */
     @Test
     public void testGetUpperBound() {
@@ -115,9 +112,24 @@ public class RangeTest {
     	assertEquals("Unexpected behaviour in method getUpperBound with positive infinity",
     			Double.POSITIVE_INFINITY, range.getUpperBound(),0.0000001);
     }
+    
+    @Test
+    public void testGetUpperBound_negativeValue() {
+    	Range range = new Range(-10.0, -5.0);
+    	assertEquals("Unexpected behaviour in method getUpperBound",
+    			-5.0, range.getUpperBound(),0.0000001);
+    }
+    
+    @Test
+    public void testGetUpperBound_zeroValue() {
+    	Range range = new Range(-10.0, 0.0);
+    	assertEquals("Unexpected behaviour in method getUpperBound",
+    			0.0, range.getUpperBound(),0.0000001);
+    }
 
     
-    /* getCentralValue method tests 
+    /* 
+     * getCentralValue method tests 
      * 
      */
     @Test
@@ -139,6 +151,13 @@ public class RangeTest {
     	Range range = new Range(45.0,6900.0);
     	assertEquals("The central value of -9 and 0 should be 3427.5",
     	3472.5, range.getCentralValue(), .000000001d);		    
+    }
+    
+    @Test
+    public void testGetCentralValue_BoundsEqual() {
+    	Range range = new Range(5.0,5.0);
+    	assertEquals("The central value of 5 and 5 should be 5",
+    	5.0, range.getCentralValue(), .000000001d);		    
     }
 
     
@@ -170,6 +189,12 @@ public class RangeTest {
     }
     
     @Test
+    public void testGetLength_ZeroLength() {
+        Range range = new Range(10.0, 10.0);
+        assertEquals("get length fails with length = 0",0.0, range.getLength(), 0.001);
+    }
+    
+    @Test
     public void testGetLength_WithMaxValue() {
         Range range = new Range(Double.MIN_VALUE, Double.MAX_VALUE);
         assertEquals("get length fails on overflow",Double.MAX_VALUE - Double.MIN_VALUE, range.getLength(), 0.001);
@@ -188,14 +213,21 @@ public class RangeTest {
     }
     
     @Test
-    public void testEquals_WithUpperBoundZeroFiveAndZeroSix() {
+    public void testEquals_Unequal_Upper_Bounds() {
         Range range1 = new Range(0.0, 5.0);
         Range range2 = new Range(0.0, 6.0);
         assertFalse("equals method fails with upper = 5.0 and upper2 = 6.0",range1.equals(range2));  
     }
     
     @Test
-    public void testEquals_WithRangesOne_FiveAndZero_Six() {
+    public void testEquals_Unequal_Lower_Bounds() {
+        Range range1 = new Range(0.0, 5.0);
+        Range range2 = new Range(1.0, 5.0);
+        assertFalse("equals method fails with lower = 0.0 and lower2 = 1.0",range1.equals(range2));  
+    }
+    
+    @Test
+    public void testEquals_Unequal_Upper_and_lower_bounds() {
         Range range1 = new Range(1.0, 5.0);
         Range range2 = new Range(0.0, 6.0);
         assertFalse("equals method fails with range1 (1.0,5.0) and range2 (0.0,6.0)",range1.equals(range2));  
@@ -208,8 +240,104 @@ public class RangeTest {
         assertFalse("equals method fails with Range(-1.0, 5.0) and Range(-1.0, 600.0)",range1.equals(range2));  
     }
     
+    
+    
+    /*
+     * 
+     * Constrain method tests
+     * Constrain range is = (-10, 20)
+     * 
+     * Combination of equivalence class (Below range, within range, above range)
+     * and boundary class testing (input == lower bound, input == upper bound)
+     * + some additional tests on a range that has lower bound == upper bound
+     * 
+     * Constrain takes a double as an input
+     * Should return a value that is within the given range AND is as close to the input value as possible
+     * (ie, an input outside of the range should return the ranges upper or lower bound, but an input in the range should return the input)
+     * 
+     * 
+     */
+    
+    //constraining from below range, should return lower bound
+    //Currently fails - returns midpoint/average between upper and lower bound instead
+    @Test
+    public void testConstrainFromBelowRange() {
+		Double result = constrainRange.constrain(-22);
+		
+		assertEquals("The resulting value should match the lower bound of the range",
+				-10, result, .000000001d);
+		}
+	
+    //constraining at lower bound should return lower bound
+	@Test
+	public void testConstrainAtLowerBound() {
+		Double result = constrainRange.constrain(-10);
+		
+		assertEquals("The resulting value should match the lower bound of the range",
+				-10, result, .000000001d);
+		}
+	
+	//constraining an in-range value should return the in-range value
+	@Test
+	public void testConstrainWithinRange() {
+		Double result = constrainRange.constrain(5.53);
+		
+		assertEquals("The resulting value should match the in range input value",
+				5.53, result, .000000001d);
+		}
+	
+	//constraining at upper bound should return upper bound
+	@Test
+	public void testConstrainAtUpperBound() {
+		Double result = constrainRange.constrain(20);
+		
+		assertEquals("The resulting value should match the upper bound of the range",
+				20, result, .000000001d);
+		}
+	
+	//constraining from above range, should return upper bound
+	@Test
+	public void testConstrainFromAboveRange() {
+		Double result = constrainRange.constrain(1000.765);
+		
+		assertEquals("The resulting value should match the upper bound of the range",
+				20, result, .000000001d);
+		}
+	
+	//tests constraining to a range with lower bound = upper bound
+	//constrain from below should return the lower bound
+	@Test
+	public void testConstrainFromBelowUnitRange() {
+		constrainRange = new Range(1,1);
+		Double result = constrainRange.constrain(-10);
+		
+		assertEquals("The resulting value should match the lowe/upper bound of the range",
+				1, result, .000000001d);
+		}
+	
+	//tests constraining to a range with lower bound = upper bound
+		@Test
+		public void testConstrainFromWithinUnitRange() {
+			constrainRange = new Range(1,1);
+			Double result = constrainRange.constrain(1);
+			
+			assertEquals("The resulting value should match the lower/upper bound of the range",
+					1, result, .000000001d);
+			}
+		
+		//constrain from below should return the lower bound
+		@Test
+		public void testConstrainFromAboveUnitRange() {
+			constrainRange = new Range(1,1);
+			Double result = constrainRange.constrain(10);
+			
+			assertEquals("The resulting value should match the lower/upper bound of the range",
+					1, result, .000000001d);
+			}
+    
     @After
     public void tearDown() throws Exception {
+    	constrainRange = null;
     }
 
     @AfterClass
