@@ -435,15 +435,15 @@ public class DataUtilitiesTest {
             allowing(values).getItemCount();
             will(returnValue(3));
             allowing(values).getKey(0);
-            will(returnValue("A"));
+            will(returnValue("0"));
             allowing(values).getValue(0);
             will(returnValue(1.0));
             allowing(values).getKey(1);
-            will(returnValue("B"));
+            will(returnValue("1"));
             allowing(values).getValue(1);
             will(returnValue(2.0));
             allowing(values).getKey(2);
-            will(returnValue("C"));
+            will(returnValue("2"));
             allowing(values).getValue(2);
             will(returnValue(3.0));
         }});
@@ -451,9 +451,9 @@ public class DataUtilitiesTest {
         KeyedValues result = DataUtilities.getCumulativePercentages(values);
         assertNotNull(result);
         assertEquals(3, result.getItemCount());
-        assertEquals(0.16666666666666666, result.getValue("A").doubleValue(), 0.000000001d);
-        assertEquals(0.5, result.getValue("B").doubleValue(), 0.000000001d);
-        assertEquals(1.0, result.getValue("C").doubleValue(), 0.000000001d);
+        assertEquals(0.16666666666666666, result.getValue("0").doubleValue(), 0.000000001d);
+        assertEquals(0.5, result.getValue("1").doubleValue(), 0.000000001d);
+        assertEquals(1.0, result.getValue("2").doubleValue(), 0.000000001d);
     }
     
     @Test
@@ -462,7 +462,7 @@ public class DataUtilitiesTest {
         
         mockingContext.checking(new Expectations() {{
             allowing(values).getItemCount();
-            will(returnValue(2));
+            will(returnValue(3));
             allowing(values).getKey(0);
             will(returnValue("A"));
             allowing(values).getValue(0);
@@ -514,6 +514,56 @@ public class DataUtilitiesTest {
         // Behavior is undefined in javadoc. The below code prints out -0.5 and 0.5 which seems wrong since values are promised to go between 0.0 and 1.0
         System.out.println(result.getValue("A"));
         System.out.println(result.getValue("B"));
+    }
+    
+    @Test
+    public void getCumulativePercentages_WithSingleValue() {
+        final KeyedValues values = mockingContext.mock(KeyedValues.class);
+        
+        mockingContext.checking(new Expectations() {{
+            allowing(values).getItemCount();
+            will(returnValue(1));
+            allowing(values).getKey(0);
+            will(returnValue("A"));
+            allowing(values).getValue(0);
+            will(returnValue(10.0));
+        }});
+        
+        KeyedValues result = DataUtilities.getCumulativePercentages(values);
+        assertNotNull(result);
+        assertEquals(1.0, result.getValue("A").doubleValue(), 0.000000001d);
+    }
+    
+    
+    @Test
+    public void getCumulativePercentages_WithLargeDataset() {
+        final KeyedValues values = mockingContext.mock(KeyedValues.class);
+        int datasetSize = 10000;
+        
+        mockingContext.checking(new Expectations() {{
+            allowing(values).getItemCount();
+            will(returnValue(datasetSize));
+            
+            for (int i = 0; i < datasetSize; i++) {
+            	allowing(values).getKey(i);
+                will(returnValue(Integer.toString(i)));
+                allowing(values).getValue(i);
+                will(returnValue(i));
+            }
+        }});
+        
+        double sum = 0;
+        for (int i = 0; i < datasetSize; i++) {
+        	sum += i;
+        }
+        
+        KeyedValues result = DataUtilities.getCumulativePercentages(values);
+        assertNotNull(result);
+        double currentSum = 0;
+        for (int i = 0; i < datasetSize; i++) {
+        	currentSum += i;
+        	assertEquals(currentSum / sum, result.getValue(Integer.toString(i)).doubleValue(), 0.000000001d);
+        }
     }
     
     @After
