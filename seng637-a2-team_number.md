@@ -17,32 +17,56 @@ In this lab, we focused on mastering automated unit testing techniques using JUn
 
 # 2 Detailed description of unit test strategy
 
-Our approach to unit testing DataUtilities and Range classes was grounded in black-box testing principles. This means we designed our tests based on the specifications and requirements (JavaDoc) without considering the internal workings of the methods. Here’s how we applied two primary black-box testing techniques:
+Our approach to unit testing DataUtilities and Range classes was based on black-box testing principles. This means we designed our tests based on the specifications and requirements provided by the JavaDocs. We did not consider white-box testing methods which would require looking at the internal workings of the methods. Here’s how we applied two primary black-box testing techniques:
 
 Equivalence Class Partitioning (ECP)
 We divided the input data for each method into groups (or classes) that we expected to be treated similarly by the method under test. This helped us minimize the number of test cases while maximizing coverage.
 
 > For DataUtilities:
 
-Positive Values Equivalence Class: Ensured the methods handled positive inputs correctly.
-Negative Values Equivalence Class: Tested the methods' ability to process negative values.
-Zero Values Equivalence Class: Checked how methods dealt with zero values, crucial for mathematical operations.
-Null Inputs Equivalence Class: Tested methods' resilience against null inputs, particularly important for methods expecting object parameters.
+Positive Values: Ensured the methods handled positive inputs correctly.
+Negative Values: Tested the methods' ability to process negative values.
+Mixed Values: Tested objects with positive and negative values.
+Zero Values: Checked how methods dealt with zero values, crucial for mathematical operations.
+Null Inputs: Tested methods' resilience against null inputs, particularly important for methods expecting object parameters.
 
 > For Range:
 
-Valid Ranges Equivalence Class: Included ranges with a lower bound less than the upper bound.
-Negative Ranges Equivalence Class: Focused on ranges entirely below zero.
-Zero and Near-Zero Conditions Equivalence Class: Tested boundary conditions around zero, including ranges starting or ending with zero.
-Special Values Equivalence Class: Tested with Double.MIN_VALUE, Double.MAX_VALUE, and Infinity to ensure methods correctly handled extreme values.
+Valid Ranges: Included ranges with a lower bound less than the upper bound.
+Invalid Ranges: Ranges where the lower bound was > the upper bound. 
+Negative Ranges: Focused on ranges entirely below zero.
+Zero and Near-Zero Conditions: Ranges starting or ending with zero, and ranges that crossed zero
+Zero Length Ranges: Ranges where lower bound = upper bound (length of zero)
+
+For Range.constrain (takes a double input)
+    Below Range: Input that was lower than the lower bound of the range
+    In Range: Input value was within the bounds of the range (Boundary tests were written for values at a ranges bound(s))
+    Above Range: Input was above the ranges upper bound
+    zero length range: The above 3 classes were repeated with a range of length zero (lower bound = upper bound)
 
 > Boundary Value Analysis (BVA)
 
 We designed test cases at the edges of these equivalence classes. This technique is based on the observation that errors tend to occur at the boundaries of input ranges.
 
-For DataUtilities, test cases like calculateColumnTotal_WithZeroValues and calculateRowTotal_WithLargeDataset targeted the boundaries of the input domain, such as empty datasets or exceptionally large datasets.
+> For DataUtilities:
 
-For Range, tests like testGetUpperBound_WithMaxValue and testConstrainFromBelowRange were designed to test the boundaries of range inputs, such as very large ranges or inputs just outside the range boundaries.
+Zero Values: input objects with values of zero
+Empty Objects: Objects with no row/columns/values, etc.
+Large Objects: Objects with a large number (10000+) values
+Index of 0: test first element of arrays
+Index = n-1: test last element of arrays
+Index out of bounds: test index of of bounds errors
+
+> For Range:
+
+Special Values: Tested ranges with Double.MIN_VALUE, Double.MAX_VALUE, Infinity and NEGATIVE_INFINITY to ensure methods correctly handled extreme values.
+Zero Values: Ranges bounded at or across zero
+Zero length Range: lower bound = upper bound
+
+For Range.constrain (takes a double input)
+  Lower bounds: input = range's lower bound
+  Upper bounds: input = range's lower bound
+  Zero length range: input = lower bound = upper bound
 
 # 3 Test cases developed
 
