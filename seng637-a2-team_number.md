@@ -343,6 +343,9 @@ Lessons Learned:
 
 Implementing mocking for DataUtilities tests was a significant hurdle. The unfamiliarity with mocking frameworks meant that our initial attempts led to tests that were less effective and, in some cases, incorrect. This challenge was compounded by the complexity of the DataUtilities class's dependencies, which required sophisticated mocking to test effectively.
 
+There was also some difficulty with designing tests based only on the Javadocs. The docs were very useful but often seemed to be missing some info that would have been useful for more thorough testing. 
+For example: DataUtilities.calculateColumnTotal specifies that for invalid input, a zero value is returned, but does not fully specify what valid/invalid input is for that method, other than that a null object should not be passed in (which is a different case that throws an output instead). We attempted to make best guesses for these cases to cover them as thoroughly as possible. For the previous example this entailed tests such as out of range indexes or empty (but not null) data objects
+
 Overcoming Challenges:
 1. Team members dedicated time to research and understand mocking frameworks better. This effort included reviewing documentation, tutorials, and community forums.
 2. We adopted a trial-and-error approach, which, while time-consuming, eventually led to a deeper understanding and correct implementation of mocking.
