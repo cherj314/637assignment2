@@ -88,7 +88,7 @@ Current Status: Passes
 Partition: Invalid Input
 Strategy: Verifies that the Range object throws IllegalArgumentException when lower is greater then upper value.
 Current Status: Passes
-Note that this behavour is not defined by javadoc.
+Note that the exact behavour for this case is not defined by javadoc.
 
 > getLowerBound:
 
@@ -160,54 +160,54 @@ Current Status: Fail
 > - testGetCentralValue_WtihRangeNegOneAndOne
 Partition: Valid Ranges.
 calculates: Verifies that the method correctly identifies and returns correct value for the central value of range where the lower value is -1 and upper value is 1, testing basic functionality and correctness.
-Current Status: **Check me**
+Current Status: Passes
 
 > - testGetCentralValue_NegMedianCalc
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly calculates and returns correct value for the central value of range where the lower value is -9 and upper value is 0, testing basic functionality and correctness.
-Current Status: **Check me**
+Current Status: Passes
 
 > - testGetCentralValue_PosMedianCalc
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly calculates and returns correct value for the central value of range where the lower value is 45 and upper value is 6900, testing basic functionality and correctness.
-Current Status: **Check me**
+Current Status: Passes
 
 > - testGetCentralValue_BoundsEqual
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly calculates and returns correct value for the central value of range where the lower value and upper value are the same, testing basic functionality and correctness.
-Current Status: **Check me**
+Current Status: Passes
 
 > getLength
 
 > - testGetLength
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly calculates and returns correct value for length of the range where lower is 0 and upper is 10, testing basic functionality and correctness.
-Current Status: **Check me**
+Current Status: Passes
 
 > - testGetLength_WithNegitiveValues
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly calculates and returns correct value for length of the range where lower is -30 and upper is -10, testing basic functionality and correctness.
-Current Status: **Check me**
+Current Status: Passes
 
 > - testGetLength_WithNegLowerBound
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly calculates and returns correct value for length of the range where lower is -30 and upper is 30, testing basic functionality and correctness.
-Current Status: **Check me**
+Current Status: Passes
 
 > - testGetLength_WithSmallValues(
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly calculates and returns correct value for length of the range where lower is 0.55555 and upper is 0.55556, testing basic functionality and correctness.
-Current Status: **Check me**
+Current Status: Passes
 
 > - testGetLength_ZeroLength(
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly calculates and returns correct value for length of the range where lower is 10 and upper is 10, testing basic functionality and correctness.
-Current Status: **Check me**
+Current Status: Passes
 
 > - testGetLength_WithMaxValue
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly calculates and returns correct value for length of the range where lower is Double.MIN_VALUE and upper is Double.MAX_VALUE, testing basic functionality and correctness.
-Current Status: **Check me**
+Current Status: Passes
 
 > equals
 
@@ -246,7 +246,7 @@ Current Status: Failed
 > - testConstrainFromBelowRange
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly constrains from below range, should return lower bound, testing basic functionality and correctness.
-Current Status: Failed
+Current Status: Failed - Returns central value instead of lower bound
 
 > - testConstrainAtLowerBound
 Partition: Valid Ranges.
@@ -271,17 +271,17 @@ Current Status: Passed
 > - testConstrainFromBelowUnitRange
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly constrains to a range with lower bound = upper bound should return the lower bound, testing basic functionality and correctness.
-Current Status: **check me**
+Current Status: Passed
 
 > - testConstrainFromWithinUnitRange
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly constrains to a range with lower bound = upper bound should match the lower/upper bound of the range, testing basic functionality and correctness.
-Current Status: **check me**
+Current Status: Passed
 
 > - testConstrainFromAboveUnitRange
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly constrains to a range with lower bound = upper bound should match the lower/upper bound of the range, testing basic functionality and correctness.
-Current Status: **check me**
+Current Status: Passed
 
 
 
@@ -292,7 +292,7 @@ DataUtilities Test Cases:
 > - calculateColumnTotal_WithPositiveValues
 Partition: Positive Values Equivalence Class.
 Strategy: Tests how the method sums positive values across a column, ensuring correct handling of normal, positive input.
-Current Status: TODO
+Current Status: Passes
 
 > - calculateColumnTotal_WithNullInput
 Partition: Null Inputs Equivalence Class - Invalid input
@@ -302,39 +302,40 @@ Current Status: Fails: method throws an IllegalArgumentException instead of an I
 > - calculateColumnTotal_WithNegativeValues
 Partition: Negative Values Equivalence Class.
 Strategy: Ensures that the method accurately sums negative values, important for correctness in datasets that include negative numbers.
-Current Status: TODO
+Current Status: Passes
 
 > - calculateColumnTotal_WithMixedValues
 Partition: Mixed Values (including zero).
 Strategy: Tests the method's ability to correctly sum a mixture of positive, negative, and zero values, checking for accuracy in varied datasets.
-Current Status: TODO
+Current Status: Passes
 
 > - calculateColumnTotal_WithNullValues
 Partition: Null Values Equivalence Class.
 Strategy: Ensures correct handling of columns where some values are null, important for edge cases in data processing.
-Current Status: TODO
+Current Status: Failed - expected 10 but got 11 - seems like null values add 1 to the sum
 
 > - calculateColumnTotal_WithZeroValues
 Partition: Zero Values Equivalence Class.
 Strategy: Ensures correct handling of columns where all values are zero, important for edge cases in data processing.
-Current Status: TODO
+Current Status: Passes
 
 > - calculateColumnTotal_WithLargeDataset
 Partition: Large Datasets.
 Strategy: Tests performance and accuracy when summing a large number of values, relevant for scalability and efficiency.
-Current Status: TODO
+Current Status: Passes
 
 > - calculateColumnTotal_WithNoRows
 Partition: Empty Datasets
 Strategy: Tests ability of method to handle inputs with no values to add. Tests robustness and input tolerance
-Current Status: TODO
+Current Status: Passes
 
 > CalculateRowTotal
+Note: the last row seems to be left of the calculations, so any test that does not have a final column value of 0.0 fails as a result
 
 > - calculateRowTotal_WithMixedValues
 Partition: Mixed Values (including zero) for row calculations.
 Strategy: Similar to column testing, this ensures accurate summing across rows with diverse data types.
-Current Status: TODO
+Current Status: Fails - expected 3.5 but was 2.5
 
 > - calculateRowTotal_WithNullInput
 Partition: Null Inputs Equivalence Class - Invalid input
@@ -344,34 +345,37 @@ Current Status: Fails: method throws an IllegalArgumentException instead of an I
 > - calculateRowTotal_WithNullValues
 Partition: Null Values Equivalence Class
 Strategy: Ensures correct handling of rows where some values are null, important for edge cases in data processing.
-Current Status: TODO
+Current Status: Fails - expected 10.0 but was 0.0
 
 > - calculateRowTotal_WithZeroValues
 Partition: Zero Value Boundary Class
 Strategy: Ensures correct handling of rows where values are zero, important for edge cases in data processing.
-Current Status: TODO
+Current Status: Fails - Expected 10 but was 0.0
 
 > - calculateRowTotal_WithRowIndexOutOfRange
 Partition: Index out of range boundary class
 Strategy: Ensures correct handling improper input, important for fault tolerance and error handeling.
-Current Status: TODO
+Current Status: Passes
 
 > - calculateRowTotal_WithNoColumns
 Partition: Empty Datasets
 Strategy: Tests ability of method to handle inputs with no values to add. Tests robustness and input tolerance
-Current Status: TODO
+Current Status: Passes
 
 > - calculateRowTotal_WithLargeDataset
 Partition: Large Datasets.
 Strategy: Tests performance and accuracy when summing a large number of values, relevant for scalability and efficiency.
-Current Status: TODO
+Current Status: Fails - Expected 10000.0 but was 9999.0 - 
 
 > createNumberArray
+ Note: this class has 2 major issues that make almost every test fail
+Issue 1: Returned value is of class Double instead of class Number (specification for the Javadocs)
+Issue 2: The final value of the returned array is always null instead of the provided double causing nullPointerExceptions when trying to access that element
 
 > - createNumberArray_WithValidInput()
 Partition: Valid input - positive values equivalence class.
 Strategy: Tests base behaviour and accuracy.
-Current Status: TODO
+Current Status: Fails - expected class Number but was class Double
 
 > - createNumberArray_WithNullInput
 Partition: Null Inputs Equivalence Class - Invalid input
@@ -381,29 +385,32 @@ Current Status: Fails: method throws an IllegalArgumentException instead of an I
 > - createNumberArray_WithNegativeValue()
 Partition: Valid input - negative values equivalence class.
 Strategy: Tests base behaviour and accuracy with negative values
-Current Status: TODO
+Current Status: Fails - null pointer exception
 
 > - createNumberArray_WithZeroValue()
 Partition: Valid input - zero value boundary class.
 Strategy: Tests base behaviour and accuracy remains when input contains zeros
-Current Status: TODO
+Current Status: Fails - null pointer exception
 
 > - createNumberArray_LargeDataset()
 Partition: Large datasets
 Strategy: Tests scalability and reliability
-Current Status: TODO
+Current Status: Fails - Null pointer exception
 
 > - createNumberArray_EmptyArray()
 Partition: empty datasets
 Strategy: Tests ability of method to handle inputs with no values. Tests robustness and input tolerance
-Current Status: TODO
+Current Status: Passes (note does not check returned class which is actually double and would cause a fail if checked)
 
 > createNumberArray2D
+Note: this class has the same two major issues as the 1D array class
+returned class is double
+final value is null
 
 > - createNumberArray2D_WithValidInput()
 Partition: Valid input - positive values equivalence class.
 Strategy: Tests base behaviour and accuracy.
-Current Status: TODO
+Current Status: Fails - Expected Class Number but was class Double
 
 > - createNumberArray2D_WithNullInput
 Partition: Null Inputs Equivalence Class - Invalid input
@@ -413,29 +420,34 @@ Current Status: Fails: method throws an IllegalArgumentException instead of an I
 > - createNumberArray2D_EmptyArray()
 Partition: empty datasets
 Strategy: Tests ability of method to handle inputs with no values. Tests robustness and input tolerance
-Current Status: TODO
+Current Status: Passes
 
 > - createNumberArray_WithNegativeInput()
 Partition: Valid input - negative values equivalence class.
 Strategy: Tests base behaviour and accuracy with negative values
-Current Status: TODO
+Current Status: fails - null pointer exception
 
 > - createNumberArray2D_LargeDataset()
 Partition: Large datasets
 Strategy: Tests scalability and reliability
-Current Status: TODO
+Current Status: Fails - null pointer exception
 
 > getCumulativePercentages
 
 > - getCumulativePercentages_WithValidInput()
 Partition: Valid Input 
 Strategy: Tests base behaviour and accuracy
-Current Status: TODO
+Current Status: fails - expected 0.1666666666666 but was 0.2
+
+> - getCumulativePercentages_WithZeroValues()
+Partition: Zero boundary class 
+Strategy: Tests input tolerance and reliability
+Current Status: Passes
 
 > - getCumulativePercentages_WithZeroTotal()
 Partition: Zero boundary class 
 Strategy: Tests input tolerance and reliability
-Current Status: TODO
+Current Status: Passes
 
 > - getCumulativePercentages_WithNullInput()
 Partition: Null Inputs Equivalence Class - Invalid input
@@ -445,18 +457,18 @@ Current Status: Fails: method throws an IllegalArgumentException instead of an I
 > - getCumulativePercentages_WithNegativeValues()
 Partition: Negative Values Equivalence class 
 Strategy: Tests robustness/ input handeling
-Current Status: TODO
-NOTE: Expected behaviour is undefined in Javadoc for inputs containing negative values so the test just checks that an object is created without issue
+Current Status: Passes
+NOTE: Expected behaviour is undefined in Javadoc for inputs containing negative values so the test just checks that an object is created without issue, otherwise would likely fail as final value was not 1.0 as would be expected for positive values
 
 > - getCumulativePercentages_WithSingleValue()
 Partition: Single input size - boundary class 
 Strategy: Tests input robustness for small input
-Current Status: TODO
+Current Status: fails - expected 1.0 but was Infinity
 
 > - getCumulativePercentages_LargeDataset()
 Partition: Large datasets
 Strategy: Tests scalability and reliability
-Current Status: TODO
+Current Status: Passes
 
 
 
