@@ -129,11 +129,165 @@ Strategy: Verifies that the method correctly identifies and returns the Double.N
 Current Status: Passes
 
 > getUpperBound
+> Note this method is broken and returns the lower bound rather then the upper. May be due to copy pasting the getLowerBound method and failing to change varibles.
 
 > - testGetUpperBound
 Partition: Valid Ranges.
-Strategy: Verifies that the method correctly identifies and returns the  for lower bound of a range, testing basic functionality and correctness.
-Current Status: Passes
+Strategy: Verifies that the method correctly identifies and returns the upper bound of a range, testing basic functionality and correctness.
+Current Status: Fail
+
+> - testGetUpperBound_WithLargeValue
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly identifies and returns the large value "123456789.5" for the upper bound of a range, testing basic functionality and correctness.
+Current Status: Fail
+
+> - testGetUpperBound_WithMaxValue
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly identifies and returns Double.MAX_VALUE for the upper bound of a range, testing basic functionality and correctness.
+Current Status: Fail
+
+> - testGetUpperBound_PosInfValue
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly identifies and returns Double.POSITIVE_INFINITY for the upper bound of a range, testing basic functionality and correctness.
+Current Status: Fail
+
+> - testGetUpperBound_negativeValue
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly identifies and returns correct value for the upper bound of a range where the values are negitive, testing basic functionality and correctness.
+Current Status: Fail
+
+> - testGetUpperBound_zeroValue
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly identifies and returns correct value for the upper bound of a range where the value is 0.0, testing basic functionality and correctness.
+Current Status: Fail
+
+> getCentralValue
+
+> - testGetCentralValue_WtihRangeNegOneAndOne
+Partition: Valid Ranges.
+calculates: Verifies that the method correctly identifies and returns correct value for the central value of range where the lower value is -1 and upper value is 1, testing basic functionality and correctness.
+Current Status: **Check me**
+
+> - testGetCentralValue_NegMedianCalc
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly calculates and returns correct value for the central value of range where the lower value is -9 and upper value is 0, testing basic functionality and correctness.
+Current Status: **Check me**
+
+> - testGetCentralValue_PosMedianCalc
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly calculates and returns correct value for the central value of range where the lower value is 45 and upper value is 6900, testing basic functionality and correctness.
+Current Status: **Check me**
+
+> - testGetCentralValue_BoundsEqual
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly calculates and returns correct value for the central value of range where the lower value and upper value are the same, testing basic functionality and correctness.
+Current Status: **Check me**
+
+> getLength
+
+> - testGetLength
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly calculates and returns correct value for length of the range where lower is 0 and upper is 10, testing basic functionality and correctness.
+Current Status: **Check me**
+
+> - testGetLength_WithNegitiveValues
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly calculates and returns correct value for length of the range where lower is -30 and upper is -10, testing basic functionality and correctness.
+Current Status: **Check me**
+
+> - testGetLength_WithNegLowerBound
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly calculates and returns correct value for length of the range where lower is -30 and upper is 30, testing basic functionality and correctness.
+Current Status: **Check me**
+
+> - testGetLength_WithSmallValues(
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly calculates and returns correct value for length of the range where lower is 0.55555 and upper is 0.55556, testing basic functionality and correctness.
+Current Status: **Check me**
+
+> - testGetLength_ZeroLength(
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly calculates and returns correct value for length of the range where lower is 10 and upper is 10, testing basic functionality and correctness.
+Current Status: **Check me**
+
+> - testGetLength_WithMaxValue
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly calculates and returns correct value for length of the range where lower is Double.MIN_VALUE and upper is Double.MAX_VALUE, testing basic functionality and correctness.
+Current Status: **Check me**
+
+> equals
+
+> - testEquals
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly returns true when two different Range objects are created with the same bounds, testing basic functionality and correctness.
+Current Status: Passed
+
+> - testEquals_Unequal_Upper_Bounds
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly returns false when two different Range objects are created with the different upper bounds, testing basic functionality and correctness.
+Current Status: Failed
+
+> - testEquals_Unequal_Lower_Bounds
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly returns false when two different Range objects are created with the different lower bounds, testing basic functionality and correctness.
+Current Status: Passed
+
+> - testEquals_Unequal_Lower_Bounds
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly returns false when two different Range objects are created with the different lower bounds, testing basic functionality and correctness.
+Current Status: Passed
+
+> - testEquals_Unequal_Upper_and_lower_bounds
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly returns false when two different Range objects are created with the different bounds, testing basic functionality and correctness.
+Current Status: Passed
+
+> - testEquals_WithNegOne_FiveAndZero_SixHundred
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly returns false when two different Range objects are created with the different bounds, testing basic functionality and correctness.
+Current Status: Failed
+
+> constrain 
+
+> - testConstrainFromBelowRange
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly constrains from below range, should return lower bound, testing basic functionality and correctness.
+Current Status: Failed
+
+> - testConstrainAtLowerBound
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly constrains at lower bound should return lower bound, testing basic functionality and correctness.
+Current Status: Passed
+
+> - testConstrainWithinRange
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly constrains an in-range value should return the in-range value, testing basic functionality and correctness.
+Current Status: Passed
+
+> - testConstrainAtUpperBound
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly constrains at upper bound should return upper bound, testing basic functionality and correctness.
+Current Status: Passed
+
+> - testConstrainFromAboveRange
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly constrains from above range, should return upper bound, testing basic functionality and correctness.
+Current Status: Passed
+
+> - testConstrainFromBelowUnitRange
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly constrains to a range with lower bound = upper bound should return the lower bound, testing basic functionality and correctness.
+Current Status: **check me**
+
+> - testConstrainFromWithinUnitRange
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly constrains to a range with lower bound = upper bound should match the lower/upper bound of the range, testing basic functionality and correctness.
+Current Status: **check me**
+
+> - testConstrainFromAboveUnitRange
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly constrains to a range with lower bound = upper bound should match the lower/upper bound of the range, testing basic functionality and correctness.
+Current Status: **check me**
 
 Each test case was designed to address specific conditions as dictated by the strategies of Equivalence Class Partitioning (ECP) and Boundary Value Analysis (BVA). This comprehensive approach ensures robust coverage across a wide array of scenarios, enhancing confidence in the correctness and reliability of the DataUtilities and Range functionalities.
 
