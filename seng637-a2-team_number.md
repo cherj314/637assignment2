@@ -2,12 +2,14 @@
 
 **Lab. Report \#2 – Requirements-Based Test Generation**
 
-| Group \#:      |     |
-| -------------- | --- |
-| Student Names: |     |
-|                |     |
-|                |     |
-|                |     |
+| Group \#6:          |     |
+| --------------     | --- |
+| Student Names:     |     |
+| Sean Temple        |     |
+| Nicholas Langley   |     |
+| John Chernoff      |     |
+| Eric Yoon          |     |
+| Raise Mehjabin Anzi|     |
 
 # 1 Introduction
 
@@ -15,25 +17,27 @@ In this lab, we focused on mastering automated unit testing techniques using JUn
 
 # 2 Detailed description of unit test strategy
 
-Our approach to unit testing DataUtilities and Range classes was grounded in black-box testing principles. This means we designed our tests based on the specifications and requirements without considering the internal workings of the methods. Here’s how we applied two primary black-box testing techniques:
+Our approach to unit testing DataUtilities and Range classes was grounded in black-box testing principles. This means we designed our tests based on the specifications and requirements (JavaDoc) without considering the internal workings of the methods. Here’s how we applied two primary black-box testing techniques:
 
 Equivalence Class Partitioning (ECP)
 We divided the input data for each method into groups (or classes) that we expected to be treated similarly by the method under test. This helped us minimize the number of test cases while maximizing coverage.
 
-For DataUtilities:
+> For DataUtilities:
 
 Positive Values Equivalence Class: Ensured the methods handled positive inputs correctly.
 Negative Values Equivalence Class: Tested the methods' ability to process negative values.
 Zero Values Equivalence Class: Checked how methods dealt with zero values, crucial for mathematical operations.
 Null Inputs Equivalence Class: Tested methods' resilience against null inputs, particularly important for methods expecting object parameters.
-For Range:
+
+> For Range:
 
 Valid Ranges Equivalence Class: Included ranges with a lower bound less than the upper bound.
 Negative Ranges Equivalence Class: Focused on ranges entirely below zero.
 Zero and Near-Zero Conditions Equivalence Class: Tested boundary conditions around zero, including ranges starting or ending with zero.
 Special Values Equivalence Class: Tested with Double.MIN_VALUE, Double.MAX_VALUE, and Infinity to ensure methods correctly handled extreme values.
 
-Boundary Value Analysis (BVA)
+> Boundary Value Analysis (BVA)
+
 We designed test cases at the edges of these equivalence classes. This technique is based on the observation that errors tend to occur at the boundaries of input ranges.
 
 For DataUtilities, test cases like calculateColumnTotal_WithZeroValues and calculateRowTotal_WithLargeDataset targeted the boundaries of the input domain, such as empty datasets or exceptionally large datasets.
@@ -74,25 +78,62 @@ Strategy: Similar to column testing, this ensures accurate summing across rows w
 
 Range Test Cases:
 
-testGetLowerBound
+> Constructor:
+
+> - testContructor_CreatesObj 
+Partition: Valid Inputs
+Strategy: Verifies that the Range object is created when valid parameters are passed.
+Current Status: Passes
+
+> - testContructor_CreatesObj_whenBoundsAreEqual 
+Partition: Valid Inputs
+Strategy: Verifies that the Range object is created when valid parameters 0.0 and 0.0 are passed.
+Current Status: Passes
+
+> - testContructor_LowerGreaterThanUpperParameter 
+Partition: Invalid Input
+Strategy: Verifies that the Range object throws IllegalArgumentException when lower is greater then upper value.
+Current Status: Passes
+Note that this behavour is not defined by javadoc.
+
+> getLowerBound:
+
+> - testGetLowerBound
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly identifies and returns the lower bound of a range, testing basic functionality and correctness.
+Current Status: Passes
 
-testGetUpperBound_WithLargeValue
-Partition: Special Values (Large Numbers).
-Strategy: Ensures that the method can correctly handle and return the upper bound when it is a very large value, testing the handling of extreme values.
+> - testGetLowerBound_WithOneNegitiveParameter
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly identifies and returns the negitive lower bound of a range, testing basic functionality and correctness.
+Current Status: Passes
 
-testConstrainFromBelowRange
-Partition: Below Range Values.
-Strategy: Applies Boundary Value Analysis (BVA) to check the method's behavior for inputs just below the range's lower boundary, ensuring correct constraint behavior.
+> - testGetLowerBound_WithBothNegitiveParameter\
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly identifies and returns the negitive lower bound of a range with both lower and upper as negitive values, testing basic functionality and correctness.
+Current Status: Passes
 
-testConstrainFromAboveRange
-Partition: Above Range Values.
-Strategy: Similar to the below range test, this checks behavior for inputs just above the range's upper boundary, ensuring inputs are correctly constrained to the range.
+> - testGetLowerBound_ZeroValue
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly identifies and returns the 0.0 value lower bound of a range, testing basic functionality and correctness.
+Current Status: Passes
 
-testGetLength_WithNegativeValues
-Partition: Negative Ranges.
-Strategy: Tests the method's ability to correctly compute the length of ranges that span negative values, important for accuracy in negative domains.
+> - testGetLowerBound_MinValue
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly identifies and returns the Double.MIN_VALUE for lower bound of a range, testing basic functionality and correctness.
+Current Status: Passes
+
+> - testGetLowerBound_NegInfValue
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly identifies and returns the Double.NEGATIVE_INFINITY for lower bound of a range, testing basic functionality and correctness.
+Current Status: Passes
+
+> getUpperBound
+
+> - testGetUpperBound
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly identifies and returns the  for lower bound of a range, testing basic functionality and correctness.
+Current Status: Passes
 
 Each test case was designed to address specific conditions as dictated by the strategies of Equivalence Class Partitioning (ECP) and Boundary Value Analysis (BVA). This comprehensive approach ensures robust coverage across a wide array of scenarios, enhancing confidence in the correctness and reliability of the DataUtilities and Range functionalities.
 
@@ -135,11 +176,14 @@ Lessons Learned:
 The lab served as a practical application of automated testing principles, offering hands-on experience with JUnit and mocking frameworks within the context of the JFreeChart library. The complexity of the tasks provided a realistic insight into software testing challenges, making the experience highly beneficial.
 
 Constructive Feedback:
+
 More Examples on Mocking: While the lab was well-structured, a common stumbling block was the effective use of mocking. Providing additional examples or a dedicated session on mocking, including common pitfalls and best practices, would be immensely helpful.
+
 Incremental Complexity: Gradually increasing the complexity of the tasks or offering optional advanced challenges could cater to a wider range of skill levels within the class.
+
 Interactive Sessions: Incorporating more interactive sessions or workshops where students can work through challenges in real-time with instructors or peers could enhance the learning experience.
 
-The lab was a valuable educational tool that struck a good balance between theory and practice. The clear instructions and logical progression through the tasks facilitated learning, though there is room for improvement in support materials related to more complex concepts like mocking. This lab not only enhanced our technical skills but also fostered soft skills such as teamwork, communication, and problem-solving, proving to be a comprehensive learning experience.
+The lab was a valuable educational tool that struck a good balance between theory and practice. The clear instructions and logical progression through the tasks facilitated learning, though there is room for improvement in support materials related to more complex concepts like mocking. Java Docs are not specifications and requirements and can leave some things open to interpritation. This lab not only enhanced our technical skills but also fostered soft skills such as teamwork, communication, and problem-solving, proving to be a comprehensive learning experience.
 
 
 RUBRIC:
