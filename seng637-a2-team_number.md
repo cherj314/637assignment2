@@ -11,31 +11,135 @@
 
 # 1 Introduction
 
-Text…
+In this lab, we focused on mastering automated unit testing techniques using JUnit, specifically through requirements-based test generation. Our goal was to understand how to design and implement effective test cases based on the specifications of the DataUtilities and Range classes from the JFreeChart library. This exercise was designed to enhance our skills in black-box testing, enabling us to create robust and reliable software components.
 
 # 2 Detailed description of unit test strategy
 
-// including the input partitions you have designed
+Our approach to unit testing DataUtilities and Range classes was grounded in black-box testing principles. This means we designed our tests based on the specifications and requirements without considering the internal workings of the methods. Here’s how we applied two primary black-box testing techniques:
+
+Equivalence Class Partitioning (ECP)
+We divided the input data for each method into groups (or classes) that we expected to be treated similarly by the method under test. This helped us minimize the number of test cases while maximizing coverage.
+
+For DataUtilities:
+
+Positive Values Equivalence Class: Ensured the methods handled positive inputs correctly.
+Negative Values Equivalence Class: Tested the methods' ability to process negative values.
+Zero Values Equivalence Class: Checked how methods dealt with zero values, crucial for mathematical operations.
+Null Inputs Equivalence Class: Tested methods' resilience against null inputs, particularly important for methods expecting object parameters.
+For Range:
+
+Valid Ranges Equivalence Class: Included ranges with a lower bound less than the upper bound.
+Negative Ranges Equivalence Class: Focused on ranges entirely below zero.
+Zero and Near-Zero Conditions Equivalence Class: Tested boundary conditions around zero, including ranges starting or ending with zero.
+Special Values Equivalence Class: Tested with Double.MIN_VALUE, Double.MAX_VALUE, and Infinity to ensure methods correctly handled extreme values.
+
+Boundary Value Analysis (BVA)
+We designed test cases at the edges of these equivalence classes. This technique is based on the observation that errors tend to occur at the boundaries of input ranges.
+
+For DataUtilities, test cases like calculateColumnTotal_WithZeroValues and calculateRowTotal_WithLargeDataset targeted the boundaries of the input domain, such as empty datasets or exceptionally large datasets.
+
+For Range, tests like testGetUpperBound_WithMaxValue and testConstrainFromBelowRange were designed to test the boundaries of range inputs, such as very large ranges or inputs just outside the range boundaries.
 
 # 3 Test cases developed
 
-Text…
+DataUtilities Test Cases:
 
-// write down the name of the test methods and classes. Organize the based on
-the source code method // they test. identify which tests cover which partitions
-you have explained in the test strategy section //above
+calculateColumnTotal_WithPositiveValues
+Partition: Positive Values Equivalence Class.
+Strategy: Tests how the method sums positive values across a column, ensuring correct handling of normal, positive input.
+
+calculateColumnTotal_WithNullInput
+Partition: Null Inputs Equivalence Class.
+Strategy: Verifies the method throws an expected exception or handles null input gracefully, testing error handling capabilities.
+
+calculateColumnTotal_WithNegativeValues
+Partition: Negative Values Equivalence Class.
+Strategy: Ensures that the method accurately sums negative values, important for correctness in datasets that include negative numbers.
+
+calculateColumnTotal_WithMixedValues
+Partition: Mixed Values (including zero).
+Strategy: Tests the method's ability to correctly sum a mixture of positive, negative, and zero values, checking for accuracy in varied datasets.
+
+calculateColumnTotal_WithZeroValues
+Partition: Zero Values Equivalence Class.
+Strategy: Ensures correct handling of columns where all values are zero, important for edge cases in data processing.
+
+calculateColumnTotal_WithLargeDataset
+Partition: Large Datasets.
+Strategy: Tests performance and accuracy when summing a large number of values, relevant for scalability and efficiency.
+
+calculateRowTotal_WithMixedValues
+Partition: Mixed Values (including zero) for row calculations.
+Strategy: Similar to column testing, this ensures accurate summing across rows with diverse data types.
+
+Range Test Cases:
+
+testGetLowerBound
+Partition: Valid Ranges.
+Strategy: Verifies that the method correctly identifies and returns the lower bound of a range, testing basic functionality and correctness.
+
+testGetUpperBound_WithLargeValue
+Partition: Special Values (Large Numbers).
+Strategy: Ensures that the method can correctly handle and return the upper bound when it is a very large value, testing the handling of extreme values.
+
+testConstrainFromBelowRange
+Partition: Below Range Values.
+Strategy: Applies Boundary Value Analysis (BVA) to check the method's behavior for inputs just below the range's lower boundary, ensuring correct constraint behavior.
+
+testConstrainFromAboveRange
+Partition: Above Range Values.
+Strategy: Similar to the below range test, this checks behavior for inputs just above the range's upper boundary, ensuring inputs are correctly constrained to the range.
+
+testGetLength_WithNegativeValues
+Partition: Negative Ranges.
+Strategy: Tests the method's ability to correctly compute the length of ranges that span negative values, important for accuracy in negative domains.
+
+Each test case was designed to address specific conditions as dictated by the strategies of Equivalence Class Partitioning (ECP) and Boundary Value Analysis (BVA). This comprehensive approach ensures robust coverage across a wide array of scenarios, enhancing confidence in the correctness and reliability of the DataUtilities and Range functionalities.
+
+**Benefits and Drawbacks of Using Mocking**
+
+Benefits:
+1. Isolation: Mocking allows us to isolate the method under test, ensuring that the test outcomes are not affected by external dependencies or the behavior of other parts of the system.
+2. Control: It provides control over the test environment by allowing us to specify the exact conditions under which the test runs, including the behavior of any dependent interfaces or methods.
+
+Drawbacks:
+1. Complexity: Implementing mocking correctly can add complexity to the test setup, making it harder to read and maintain the test code.
+2. Over-reliance: There's a risk of over-reliance on mocking, which might lead to tests that pass despite issues in the actual integration between components or in the production environment.
+
+In summary, our unit testing strategy was carefully designed to cover a broad spectrum of scenarios, leveraging black-box testing techniques to ensure thoroughness and effectiveness. While mocking provided valuable control over the testing environment, we remained mindful of its potential pitfalls, striving for a balanced and comprehensive testing approach.
 
 # 4 How the team work/effort was divided and managed
 
-Text…
+Our team's approach to dividing the workload proved to be efficient. By focusing on different classes (DataUtilities and Range), we were able to specialize our understanding in specific areas before sharing our insights with the group. This specialization allowed for more in-depth learning and a higher quality of testing. Weekly meetings were crucial for aligning our efforts, discussing findings, and brainstorming solutions to encountered problems. These sessions became a platform for knowledge exchange, significantly enhancing our collective understanding of unit testing and the specific tools used in the lab.
+
+Lessons Learned:
+1. Regular and clear communication was key to overcoming obstacles and ensuring that everyone was aligned on the project's goals and progress.
+2. Sharing and reviewing each other's work not only helped catch mistakes early but also fostered a learning environment where feedback was used constructively.
+3. Being adaptable in our roles and willing to assist outside our primary focus areas ensured that no task became a bottleneck.
 
 # 5 Difficulties encountered, challenges overcome, and lessons learned
 
-Text…
+Implementing mocking for DataUtilities tests was a significant hurdle. The unfamiliarity with mocking frameworks meant that our initial attempts led to tests that were less effective and, in some cases, incorrect. This challenge was compounded by the complexity of the DataUtilities class's dependencies, which required sophisticated mocking to test effectively.
+
+Overcoming Challenges:
+1. Team members dedicated time to research and understand mocking frameworks better. This effort included reviewing documentation, tutorials, and community forums.
+2. We adopted a trial-and-error approach, which, while time-consuming, eventually led to a deeper understanding and correct implementation of mocking.
+3. Seeking guidance from external sources, including online communities and existing literature, provided us with the insights needed to overcome our initial difficulties.
+
+Lessons Learned:
+1. Understanding the tools and frameworks before diving into implementation can save time and frustration.
+2. Facing and overcoming challenges through perseverance was a valuable lesson in problem-solving and determination.
 
 # 6 Comments/feedback on the lab itself
 
-Text…
+The lab served as a practical application of automated testing principles, offering hands-on experience with JUnit and mocking frameworks within the context of the JFreeChart library. The complexity of the tasks provided a realistic insight into software testing challenges, making the experience highly beneficial.
+
+Constructive Feedback:
+More Examples on Mocking: While the lab was well-structured, a common stumbling block was the effective use of mocking. Providing additional examples or a dedicated session on mocking, including common pitfalls and best practices, would be immensely helpful.
+Incremental Complexity: Gradually increasing the complexity of the tasks or offering optional advanced challenges could cater to a wider range of skill levels within the class.
+Interactive Sessions: Incorporating more interactive sessions or workshops where students can work through challenges in real-time with instructors or peers could enhance the learning experience.
+
+The lab was a valuable educational tool that struck a good balance between theory and practice. The clear instructions and logical progression through the tasks facilitated learning, though there is room for improvement in support materials related to more complex concepts like mocking. This lab not only enhanced our technical skills but also fostered soft skills such as teamwork, communication, and problem-solving, proving to be a comprehensive learning experience.
 
 
 RUBRIC:
