@@ -457,7 +457,7 @@ public class DataUtilitiesTest {
     }
     
     @Test
-    public void getCumulativePercentages_WithZeroTotal() {
+    public void getCumulativePercentages_WithZeroValues() {
         final KeyedValues values = mockingContext.mock(KeyedValues.class);
         
         mockingContext.checking(new Expectations() {{
@@ -483,6 +483,35 @@ public class DataUtilitiesTest {
         assertEquals(0.0, result.getValue("A").doubleValue(), 0.000000001d);
         assertEquals(0.0, result.getValue("B").doubleValue(), 0.000000001d);
         assertEquals(1.0, result.getValue("C").doubleValue(), 0.000000001d);
+    }
+
+    @Test
+    public void getCumulativePercentages_WithZeroTotal() {
+        final KeyedValues values = mockingContext.mock(KeyedValues.class);
+        
+        mockingContext.checking(new Expectations() {{
+            allowing(values).getItemCount();
+            will(returnValue(3));
+            allowing(values).getKey(0);
+            will(returnValue("A"));
+            allowing(values).getValue(0);
+            will(returnValue(0.0));
+            allowing(values).getKey(1);
+            will(returnValue("B"));
+            allowing(values).getValue(1);
+            will(returnValue(0.0));
+            allowing(values).getKey(2);
+            will(returnValue("C"));
+            allowing(values).getValue(2);
+            will(returnValue(0.0));
+            
+        }});
+        
+        KeyedValues result = DataUtilities.getCumulativePercentages(values);
+        assertNotNull(result);
+        assertEquals(Double.NaN, result.getValue("A").doubleValue(), 0.000000001d);
+        assertEquals(Double.NaN, result.getValue("B").doubleValue(), 0.000000001d);
+        assertEquals(Double.NaN, result.getValue("C").doubleValue(), 0.000000001d);
     }
    
     @Test(expected = InvalidParameterException.class)
