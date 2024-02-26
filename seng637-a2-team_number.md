@@ -19,7 +19,7 @@ In this lab, we focused on mastering automated unit testing techniques using JUn
 
 Our approach to unit testing DataUtilities and Range classes was based on black-box testing principles. This means we designed our tests based on the specifications and requirements provided by the JavaDocs. We did not consider white-box testing methods which would require looking at the internal workings of the methods. Here’s how we applied two primary black-box testing techniques:
 
-Equivalence Class Partitioning (ECP)
+> Equivalence Class Partitioning (ECP)
 We divided the input data for each method into groups (or classes) that we expected to be treated similarly by the method under test. This helped us minimize the number of test cases while maximizing coverage.
 
 > For DataUtilities:
