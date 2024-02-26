@@ -329,7 +329,10 @@ In summary, our unit testing strategy was carefully designed to cover a broad sp
 
 # 4 How the team work/effort was divided and managed
 
-Our team's approach to dividing the workload proved to be efficient. By focusing on different classes (DataUtilities and Range), we were able to specialize our understanding in specific areas before sharing our insights with the group. This specialization allowed for more in-depth learning and a higher quality of testing. Weekly meetings were crucial for aligning our efforts, discussing findings, and brainstorming solutions to encountered problems. These sessions became a platform for knowledge exchange, significantly enhancing our collective understanding of unit testing and the specific tools used in the lab.
+As there were 10 methods to test, evenly divided between two classes, We decided to split them equally betweeen group members. Each member designed and created the tests for 1 range method and 1 data utilities method
+This ensured that each group member got experience with the simpler tests and the ones that involved using a mocking object.
+
+Once the initial tests were designed and implemented. Our group took a look at eachothers tests and offer input/ constructive criticism, this allowed us to improve our understanding of the material, and to fill out the test methods with anything that may have been missed.
 
 Lessons Learned:
 1. Regular and clear communication was key to overcoming obstacles and ensuring that everyone was aligned on the project's goals and progress.
