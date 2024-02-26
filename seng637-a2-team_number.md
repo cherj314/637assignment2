@@ -70,36 +70,6 @@ For Range.constrain (takes a double input)
 
 # 3 Test cases developed
 
-DataUtilities Test Cases:
-
-calculateColumnTotal_WithPositiveValues
-Partition: Positive Values Equivalence Class.
-Strategy: Tests how the method sums positive values across a column, ensuring correct handling of normal, positive input.
-
-calculateColumnTotal_WithNullInput
-Partition: Null Inputs Equivalence Class.
-Strategy: Verifies the method throws an expected exception or handles null input gracefully, testing error handling capabilities.
-
-calculateColumnTotal_WithNegativeValues
-Partition: Negative Values Equivalence Class.
-Strategy: Ensures that the method accurately sums negative values, important for correctness in datasets that include negative numbers.
-
-calculateColumnTotal_WithMixedValues
-Partition: Mixed Values (including zero).
-Strategy: Tests the method's ability to correctly sum a mixture of positive, negative, and zero values, checking for accuracy in varied datasets.
-
-calculateColumnTotal_WithZeroValues
-Partition: Zero Values Equivalence Class.
-Strategy: Ensures correct handling of columns where all values are zero, important for edge cases in data processing.
-
-calculateColumnTotal_WithLargeDataset
-Partition: Large Datasets.
-Strategy: Tests performance and accuracy when summing a large number of values, relevant for scalability and efficiency.
-
-calculateRowTotal_WithMixedValues
-Partition: Mixed Values (including zero) for row calculations.
-Strategy: Similar to column testing, this ensures accurate summing across rows with diverse data types.
-
 Range Test Cases:
 
 > Constructor:
@@ -312,6 +282,184 @@ Current Status: **check me**
 Partition: Valid Ranges.
 Strategy: Verifies that the method correctly constrains to a range with lower bound = upper bound should match the lower/upper bound of the range, testing basic functionality and correctness.
 Current Status: **check me**
+
+
+
+DataUtilities Test Cases:
+
+> calculateColumnTotal
+
+> - calculateColumnTotal_WithPositiveValues
+Partition: Positive Values Equivalence Class.
+Strategy: Tests how the method sums positive values across a column, ensuring correct handling of normal, positive input.
+Current Status: TODO
+
+> - calculateColumnTotal_WithNullInput
+Partition: Null Inputs Equivalence Class - Invalid input
+Strategy: Verifies the method throws an expected exception or handles null input gracefully, testing error handling capabilities.
+Current Status: Fails: method throws an IllegalArgumentException instead of an InvalidParameterException
+
+> - calculateColumnTotal_WithNegativeValues
+Partition: Negative Values Equivalence Class.
+Strategy: Ensures that the method accurately sums negative values, important for correctness in datasets that include negative numbers.
+Current Status: TODO
+
+> - calculateColumnTotal_WithMixedValues
+Partition: Mixed Values (including zero).
+Strategy: Tests the method's ability to correctly sum a mixture of positive, negative, and zero values, checking for accuracy in varied datasets.
+Current Status: TODO
+
+> - calculateColumnTotal_WithNullValues
+Partition: Null Values Equivalence Class.
+Strategy: Ensures correct handling of columns where some values are null, important for edge cases in data processing.
+Current Status: TODO
+
+> - calculateColumnTotal_WithZeroValues
+Partition: Zero Values Equivalence Class.
+Strategy: Ensures correct handling of columns where all values are zero, important for edge cases in data processing.
+Current Status: TODO
+
+> - calculateColumnTotal_WithLargeDataset
+Partition: Large Datasets.
+Strategy: Tests performance and accuracy when summing a large number of values, relevant for scalability and efficiency.
+Current Status: TODO
+
+> - calculateColumnTotal_WithNoRows
+Partition: Empty Datasets
+Strategy: Tests ability of method to handle inputs with no values to add. Tests robustness and input tolerance
+Current Status: TODO
+
+> CalculateRowTotal
+
+> - calculateRowTotal_WithMixedValues
+Partition: Mixed Values (including zero) for row calculations.
+Strategy: Similar to column testing, this ensures accurate summing across rows with diverse data types.
+Current Status: TODO
+
+> - calculateRowTotal_WithNullInput
+Partition: Null Inputs Equivalence Class - Invalid input
+Strategy: Verifies the method throws an expected exception or handles null input gracefully, testing error handling capabilities.
+Current Status: Fails: method throws an IllegalArgumentException instead of an InvalidParameterException
+
+> - calculateRowTotal_WithNullValues
+Partition: Null Values Equivalence Class
+Strategy: Ensures correct handling of rows where some values are null, important for edge cases in data processing.
+Current Status: TODO
+
+> - calculateRowTotal_WithZeroValues
+Partition: Zero Value Boundary Class
+Strategy: Ensures correct handling of rows where values are zero, important for edge cases in data processing.
+Current Status: TODO
+
+> - calculateRowTotal_WithRowIndexOutOfRange
+Partition: Index out of range boundary class
+Strategy: Ensures correct handling improper input, important for fault tolerance and error handeling.
+Current Status: TODO
+
+> - calculateRowTotal_WithNoColumns
+Partition: Empty Datasets
+Strategy: Tests ability of method to handle inputs with no values to add. Tests robustness and input tolerance
+Current Status: TODO
+
+> - calculateRowTotal_WithLargeDataset
+Partition: Large Datasets.
+Strategy: Tests performance and accuracy when summing a large number of values, relevant for scalability and efficiency.
+Current Status: TODO
+
+> createNumberArray
+
+> - createNumberArray_WithValidInput()
+Partition: Valid input - positive values equivalence class.
+Strategy: Tests base behaviour and accuracy.
+Current Status: TODO
+
+> - createNumberArray_WithNullInput
+Partition: Null Inputs Equivalence Class - Invalid input
+Strategy: Verifies the method throws an expected exception or handles null input gracefully, testing error handling capabilities.
+Current Status: Fails: method throws an IllegalArgumentException instead of an InvalidParameterException
+
+> - createNumberArray_WithNegativeValue()
+Partition: Valid input - negative values equivalence class.
+Strategy: Tests base behaviour and accuracy with negative values
+Current Status: TODO
+
+> - createNumberArray_WithZeroValue()
+Partition: Valid input - zero value boundary class.
+Strategy: Tests base behaviour and accuracy remains when input contains zeros
+Current Status: TODO
+
+> - createNumberArray_LargeDataset()
+Partition: Large datasets
+Strategy: Tests scalability and reliability
+Current Status: TODO
+
+> - createNumberArray_EmptyArray()
+Partition: empty datasets
+Strategy: Tests ability of method to handle inputs with no values. Tests robustness and input tolerance
+Current Status: TODO
+
+> createNumberArray2D
+
+> - createNumberArray2D_WithValidInput()
+Partition: Valid input - positive values equivalence class.
+Strategy: Tests base behaviour and accuracy.
+Current Status: TODO
+
+> - createNumberArray2D_WithNullInput
+Partition: Null Inputs Equivalence Class - Invalid input
+Strategy: Verifies the method throws an expected exception or handles null input gracefully, testing error handling capabilities.
+Current Status: Fails: method throws an IllegalArgumentException instead of an InvalidParameterException
+
+> - createNumberArray2D_EmptyArray()
+Partition: empty datasets
+Strategy: Tests ability of method to handle inputs with no values. Tests robustness and input tolerance
+Current Status: TODO
+
+> - createNumberArray_WithNegativeInput()
+Partition: Valid input - negative values equivalence class.
+Strategy: Tests base behaviour and accuracy with negative values
+Current Status: TODO
+
+> - createNumberArray2D_LargeDataset()
+Partition: Large datasets
+Strategy: Tests scalability and reliability
+Current Status: TODO
+
+> getCumulativePercentages
+
+> - getCumulativePercentages_WithValidInput()
+Partition: Valid Input 
+Strategy: Tests base behaviour and accuracy
+Current Status: TODO
+
+> - getCumulativePercentages_WithZeroTotal()
+Partition: Zero boundary class 
+Strategy: Tests input tolerance and reliability
+Current Status: TODO
+
+> - getCumulativePercentages_WithNullInput()
+Partition: Null Inputs Equivalence Class - Invalid input
+Strategy: Verifies the method throws an expected exception or handles null input gracefully, testing error handling capabilities.
+Current Status: Fails: method throws an IllegalArgumentException instead of an InvalidParameterException
+
+> - getCumulativePercentages_WithNegativeValues()
+Partition: Negative Values Equivalence class 
+Strategy: Tests robustness/ input handeling
+Current Status: TODO
+NOTE: Expected behaviour is undefined in Javadoc for inputs containing negative values so the test just checks that an object is created without issue
+
+> - getCumulativePercentages_WithSingleValue()
+Partition: Single input size - boundary class 
+Strategy: Tests input robustness for small input
+Current Status: TODO
+
+> - getCumulativePercentages_LargeDataset()
+Partition: Large datasets
+Strategy: Tests scalability and reliability
+Current Status: TODO
+
+
+
 
 Each test case was designed to address specific conditions as dictated by the strategies of Equivalence Class Partitioning (ECP) and Boundary Value Analysis (BVA). This comprehensive approach ensures robust coverage across a wide array of scenarios, enhancing confidence in the correctness and reliability of the DataUtilities and Range functionalities.
 
