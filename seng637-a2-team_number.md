@@ -528,25 +528,3 @@ Incremental Complexity: Gradually increasing the complexity of the tasks or offe
 Interactive Sessions: Incorporating more interactive sessions or workshops where students can work through challenges in real-time with instructors or peers could enhance the learning experience.
 
 The lab was a valuable educational tool that struck a good balance between theory and practice. The clear instructions and logical progression through the tasks facilitated learning, though there is room for improvement in support materials related to more complex concepts like mocking. Java Docs are not specifications and requirements and can leave some things open to interpritation. This lab not only enhanced our technical skills but also fostered soft skills such as teamwork, communication, and problem-solving, proving to be a comprehensive learning experience.
-
-
-RUBRIC:
-4.1 Lab Report (30%)
-To be consistent, please use the template Word file “seng438-a2-team_number.md” provided in the reopsitory.
-
-Marking scheme	
-A detailed description of the testing strategy for unit testing and your test-case design approach, i.e., how you used the black-box test-case design techniques equivalence classes, and boundary value analysis. Also list the name of the test cases you have designed and identify which one covers which parts of the strategy (which partition, which class, etc.) Include a discussion about what you feel are the benefits and drawbacks about using mocking.	25%
-A discussion on how the team work/effort was divided and managed. Any lessons learned from your teamwork on this lab?	2%
-Difficulties encountered, challenges overcome, and lessons learned from performing the lab	2%
-Comments/feedback on the lab and lab document itself. (Did you find it a useful practice? Was it easy to follow?) Please try to keep comments and feedback constructive.	1%
-4.2 Junit Test Suite (70%)
-Your Eclipse project including any external library for mocking and all test suite Java files should be submitted along with the lab report in GitHub. The JUnit test should be executable AS IS. No restricting, importing, etc. should be needed.
-
-The grading criteria for JUnit test suite are as follows:
-
-Marking scheme	
-Clarity: are they easy to follow, through commenting or style, etc.? The test cases should also have comments that shows which test follows which part of the test strategy. E.g., this test covers a maximum value for variable X and normal values for variable Y and Z in method A(X,Y,Z)	10%
-Adherence to requirements: do they cover all the classes and partitions described in the test strategy?)	10%
-Completeness: are there any obvious requirements which have not been tested? Have equivalence classes, and boundary value analysis been followed carefully? Is your unit test suite clearly match the test-case design section in your lab report?	25%
-Correctness: do test run without error? do the tests actually test what they are intended to test?	25%
-Important note: Please store the JUnit test suite you have developed in this lab in a known location. It will be re-used in the next Labs.
